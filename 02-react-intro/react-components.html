@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Hello World!</title>
+	<script src="react.js"></script>
+	<script src="react-dom.js"></script>
+	<script>
+		function init(){
+			var divEle = React.createElement('div', null, 
+				React.createElement('h1', null, 'Welcome to React.js!'),
+				React.createElement('hr', null, null),
+				React.createElement('p', null, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa ullam perferendis quas. Maiores sed repellendus laborum ab, vel delectus! Sequi voluptas magnam quisquam perspiciatis nesciunt aliquam, tempore expedita labore fuga.')
+				);
+
+			ReactDOM.render(
+			  divEle
+			, document.getElementById('root'))
+		}
+		window.addEventListener('DOMContentLoaded', init);
+	</script>
+</head>
+<body>
+	<div id="myDiv">
+		This is some standand contents
+	</div>
+	<div id="root">
+		
+	</div>
+</body>
+</html>

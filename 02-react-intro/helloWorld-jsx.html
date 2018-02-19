@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Hello World!</title>
+	<script src="react.js"></script>
+	<script src="react-dom.js"></script>
+	<script src="babel.min.js"></script>
+	<script type="text/babel">
+		var message = 'Welcome to React.js!';
+
+		function init(){
+			var divEle = (
+				<div>
+					<h1>{message}</h1>
+					<hr/>
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa ullam perferendis quas. Maiores sed repellendus laborum ab, vel delectus! Sequi voluptas magnam quisquam perspiciatis nesciunt aliquam, tempore expedita labore fuga.</p>
+				</div>
+			);
+			
+			ReactDOM.render(
+			  divEle
+			, document.getElementById('root'))
+		}
+		init();
+	</script>
+</head>
+<body>
+	
+	<div id="root">
+		
+	</div>
+</body>
+</html>

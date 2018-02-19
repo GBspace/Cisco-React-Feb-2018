@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Greeter</title>
+	<script src="react.js"></script>
+	<script src="react-dom.js"></script>
+	<script src="babel.min.js"></script>
+	<script type="text/babel">
+		class Greeter extends React.Component{
+			state = {
+				message : ''
+			}
+			constructor(){
+				super();
+				this.onGreetClick = this.onGreetClick.bind(this);
+			}
+			onGreetClick(){
+				var username = this.refs.txtUserName.value;
+				this.setState({
+					message : 'Hi ' + username + ', Have a nice day!'
+				});
+			}
+			render(){
+				console.log(this.state);
+				return(
+					<div>
+						<label>User Name :</label>
+						<input type="text" ref="txtUserName"/>
+						<input type="button" value="Greet" onClick={this.onGreetClick} />
+						<div>{this.state.message}</div>
+					</div>
+				)
+			}
+		};
+
+		ReactDOM.render(<Greeter ></Greeter>,
+			document.getElementById('root'));
+	</script>
+</head>
+<body>
+	<div id="root"></div>
+</body>
+</html>
