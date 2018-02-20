@@ -108,9 +108,8 @@
 
 		let CalculatorResult = ({data}) => {
 			let styleName = data >=0 ? 'positive' : 'negative';
-			return (
-				<div className={styleName}>{data}</div>
-			)
+			return data > 0 ? ( <div className={styleName}>{data}</div> ) : null;
+			
 		}
 		
 

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Products</title>
+	<script src="react.js"></script>
+	<script src="react-dom.js"></script>
+	<script src="babel.min.js"></script>
+	
+	<script type="text/babel">
+		class EventEmitter{
+			_subscribers = [];
+			constructor(){
+
+			}
+			subscribe(callbackFn){
+				this._subscribers.push(callbackFn)
+			}
+			trigger(){
+				this._subscribers.forEach(function(subscriptionFn){
+					if (typeof subscriptionFn === 'function')
+						subscriptionFn();
+				});
+			}
+		}
+		
+
+		class ProductList extends React.Component{
+			render(){
+				let products = ['Pen', 'Pencil', 'Marker', 'Scribble Pad'];
+				/*let productItems = [
+					(<li key="1">Pen</li>),
+					(<li key="2">Pencil</li>),
+					(<li key="3">Marker</li>)
+				];*/
+
+				let productItems = products.map((product, index) => (<li key={index}>{product}</li>));
+
+				return(
+					<div>
+						<h2>Products</h2>
+						<hr />
+						<label>Product Name :</label>
+						<input type="text" />
+						<input type="button" value="Add To List" />
+						<hr/>
+						<span>Total number of products : {products.length}</span>
+						<ol>
+							{productItems}
+						</ol>
+					</div>
+				);
+			}
+		}
+		ReactDOM.render(<ProductList />,
+			document.getElementById('root'));
+	</script>
+</head>
+<body>
+	<div id="root"></div>
+</body>
+</html>
+
