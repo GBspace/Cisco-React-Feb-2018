@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Bug Tracker</title>
+	<style>
+		body{
+			margin-left: 50px;
+		}
+		section{
+			margin-bottom: 10px;
+		}
+		.closed{
+			color : red;
+			text-decoration: line-through;
+			font-style: italic;
+			font-weight: bold;
+		}
+		.bugname, .stats{
+			font-size: 20pt;
+		}
+		.bugname{
+			cursor : pointer;
+		}
+		ol{
+			list-style: none;
+			width: 500px;
+			-webkit-padding-start : 0px;
+		}
+		li{
+			border: 1px solid gray;
+			background-color: #e7e7e7;
+			padding: 10px;
+			border-radius: 5px;
+			margin-bottom: 10px;
+		}
+		.datetime{
+			font-style: italic;
+		}
+	</style>
+	<script src="react.js"></script>
+	<script src="react-dom.js"></script>
+	<script src="babel.min.js"></script>
+	<script type="text/babel">
+		class EventEmitter{
+			_subscribers = [];
+			constructor(){
+
+			}
+			subscribe(callbackFn){
+				this._subscribers.push(callbackFn)
+			}
+			trigger(){
+				this._subscribers.forEach(function(subscriptionFn){
+					if (typeof subscriptionFn === 'function')
+						subscriptionFn();
+				});
+			}
+		}
+
+		class BugsCollection extends EventEmitter{
+			constructor(){
+				super();
+				this._list = [];
+			}
+			
+			addNew(bugName){
+				let newBug = {
+					name : bugName,
+					isClosed : false
+				};
+				this._list.push(newBug);
+				this.trigger();
+			}
+			getAll(){
+				return [...this._list];
+			}
+		}
+
+		class BugItem extends React.Component{
+			onBugNameClick(){
+				console.log(this.props.model);
+			}
+			render(){
+				const { model } = this.props;
+				return(
+					<li >
+						<span className="bugname" onClick={() => this.onBugNameClick()}>{model.name}</span>
+						<div>[{model.isClosed.toString()}]</div>
+						<div className="datetime">[Created At]</div>
+					</li>
+				)
+			}
+		}
+
+		class BugTracker extends React.Component{
+			state = {
+				newBugName : ''
+			};
+
+			
+
+			render(){
+				const { model } = this.props;
+				const bugs = model.getAll();
+				const bugItems = bugs.map((bug, index) => (
+					<BugItem model={bug} key={index} />		
+				));
+				return(
+					<div>
+						<section className="stats">
+							<span className="closed">1</span>
+							<span> / </span>
+							<span>{bugs.length}</span>
+						</section>
+						<section className="edit">
+							<label htmlFor="">Bug Name :</label>
+							<input type="text" onChange={(evt) => this.setState({newBugName : evt.target.value})}/>
+							<input type="button" value="Create New" onClick={() => model.addNew(this.state.newBugName)} />
+						</section>
+						<section className="list">
+							<ol>
+								{bugItems}
+							</ol>
+							<input type="button" value="Remove Closed" />
+						</section>
+					</div>
+				)
+			}
+		}
+
+		var bugsCollection = new BugsCollection();
+		function renderApp(){
+			ReactDOM.render(<BugTracker model={bugsCollection}/>,
+				document.getElementById('root'));	
+		}
+		renderApp();
+		bugsCollection.subscribe(renderApp);
+	</script>
+</head>
+<body>
+	<h1>Bug Tracker</h1>
+	<hr>
+	<div id="root"></div>
+</body>
+</html>
