@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>State Manager - test</title>
+	<script src="stateManager.js"></script>
+	<script src="react.js"></script>
+	<script src="react-dom.js"></script>
+	<script src="babel.min.js"></script>
+	<script type="text/babel">
+		function spinnerReducer(currentState = 0, action){
+			if (action.type === 'INCREMENT') return ++currentState;
+			if (action.type === 'DECREMENT') return --currentState;
+			return currentState;
+		}
+		{/*class Spinner extends React.Component{
+			onIncrementClick(){
+				this.props.increment();
+			}
+			onDecrementClick(){
+				this.props.decrement();
+			}
+			render(){
+				var { value } = this.props;
+				return(
+					<div>
+						<input type="button" value="DECREMENT" onClick={this.onDecrementClick.bind(this)}/>
+						<span> [ {value} ] </span>
+						<input type="button" value="INCREMENT" onClick={this.onIncrementClick.bind(this)}/>
+					</div>
+				)
+			}
+		}*/}
+
+		let Spinner = ({value, increment, decrement}) => (
+			<div>
+				<input type="button" value="DECREMENT" onClick={decrement}/>
+				<span> [ {value} ] </span>
+				<input type="button" value="INCREMENT" onClick={increment}/>
+			</div>
+		);
+
+		var spinnerActionsCreator = {
+			increment(){
+				return { type : 'INCREMENT' };
+			},
+			decrement(){
+				return { type : 'DECREMENT' };
+			}
+		}
+		function bindSpinnerActionsCreator(spinnerActionsCreator, dispatch){
+			return {
+				increment(){
+					var action = spinnerActionsCreator.increment();
+					dispatch(action);
+				},
+				decrement(){
+					var action = spinnerActionsCreator.decrement();
+					dispatch(action);
+				}
+			}
+		}
+		var store = SM.createStore(spinnerReducer);
+		var spinnerActions = bindSpinnerActionsCreator(spinnerActionsCreator, store.dispatch);
+
+		function renderApp(){
+			var value = store.getState(),
+				{ increment, decrement } = spinnerActions;
+
+			ReactDOM.render(<Spinner value={value} increment={increment} decrement={decrement}/>,
+				document.getElementById('root'));
+		}
+		store.subscribe(renderApp);
+		renderApp();
+	</script>
+</head>
+<body>
+	<div id="root"></div>
+</body>
+</html>
