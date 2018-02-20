@@ -1,0 +1,74 @@
+<!-- 
+1. Add new bugs
+2. List the bugs
+3. Toggle the 'closed' status of any bug
+4. Remove closed bugs
+5. Display Stats
+
+Hints
+	BugTracker
+		BugStats
+		BugEdit
+		BugList
+			BugItem
+ -->
+<style>
+	body{
+		margin-left: 50px;
+	}
+	section{
+		margin-bottom: 10px;
+	}
+	.closed{
+		color : red;
+		text-decoration: line-through;
+		font-style: italic;
+		font-weight: bold;
+	}
+	.bugname, .stats{
+		font-size: 20pt;
+	}
+	.bugname{
+		cursor : pointer;
+	}
+	ol{
+		list-style: none;
+		width: 500px;
+		-webkit-padding-start : 0px;
+	}
+	li{
+		border: 1px solid gray;
+		background-color: #e7e7e7;
+		padding: 10px;
+		border-radius: 5px;
+		margin-bottom: 10px;
+	}
+	.datetime{
+		font-style: italic;
+	}
+</style>
+<h1>Bug Tracker</h1>
+<hr>
+<section class="stats">
+	<span class="closed">1</span>
+	<span> / </span>
+	<span>2</span>
+</section>
+<section class="edit">
+	<label for="">Bug Name :</label>
+	<input type="text" name="" id="">
+	<input type="button" value="Create New">
+</section>
+<section class="list">
+	<ol>
+		<li>
+			<span class="bugname">[This is bug - 1]</span>
+			<div class="datetime">[Created At]</div>
+		</li>
+		<li>
+			<span class="bugname closed">[This is bug - 2]</span>
+			<div class="datetime">[Created At]</div>
+		</li>
+	</ol>
+	<input type="button" value="Remove Closed">
+</section>
