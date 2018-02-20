@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Greeter</title>
+	<script src="react.js"></script>
+	<script src="react-dom.js"></script>
+	<script src="babel.min.js"></script>
+	<script type="text/babel">
+		class EventEmitter{
+			_subscribers = [];
+			constructor(){
+
+			}
+			subscribe(callbackFn){
+				this._subscribers.push(callbackFn)
+			}
+			trigger(){
+				this._subscribers.forEach(function(subscriptionFn){
+					if (typeof subscriptionFn === 'function')
+						subscriptionFn();
+				});
+			}
+		}
+		class CalculatorModel extends EventEmitter{
+			constructor(){
+				super();
+				this.n1 = 0;
+				this.n2 = 0;
+				this.result = 0;
+			}
+			add(){
+				this.result = this.n1 + this.n2;
+				this.trigger();
+			}
+			subtract(){
+				this.result = this.n1 - this.n2;
+				this.trigger();
+			}
+		}
+
+		class Calculator extends React.Component{
+			
+			constructor(){
+				super();
+				this.onAddClick = this.onAddClick.bind(this);
+				this.onSubtractClick = this.onSubtractClick.bind(this);
+				this.onTxtNumber1Change = this.onTxtNumber1Change.bind(this);
+				this.onTxtNumber2Change = this.onTxtNumber2Change.bind(this);
+			}
+			onTxtNumber1Change(evt){
+				this.props.model.n1 = evt.target.valueAsNumber;
+			}
+			onTxtNumber2Change(evt){
+				this.props.model.n2 = evt.target.valueAsNumber;
+			}
+			onAddClick(){
+				this.props.model.add();
+			}
+			onSubtractClick(){
+				this.props.model.subtract();
+			}
+			render(){
+				return(
+					<div>
+						<h1>Calculator</h1>
+						<hr />
+						<label>Number 1:</label>
+						<input type=ange={this.onTxtNumber1Change}/>
+						<br />
+						<label>Number 2:</label>
+						<input type="number" ref="txtNumber2" onChange={this.onTxtNumber2Change}/>
+						<br />
+						<input type="button" value="Add" onClick={this.onAddClick}/>
+						<input type="button" value="Subtract" onClick={this.onSubtractClick}/>
+						<div>{this.props.model.result}</div>
+					</div>
+				)
+			}
+		};
+
+		var calculatorModel = new CalculatorModel();
+
+		function renderApp(){
+			ReactDOM.render(<Calculator model={calculatorModel}></Calculator>,
+				document.getElementById('root'));
+		}
+		renderApp();
+		calculatorModel.subscribe(renderApp);
+	</script>
+</head>
+<body>
+	<div id="root"></div>
+</body>
+</html>
+
