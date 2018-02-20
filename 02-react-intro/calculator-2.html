@@ -6,6 +6,14 @@
 	<script src="react.js"></script>
 	<script src="react-dom.js"></script>
 	<script src="babel.min.js"></script>
+	<style>
+		.positive{
+			color : green;
+		}
+		.negative{
+			color : red;
+		}
+	</style>
 	<script type="text/babel">
 		class EventEmitter{
 			_subscribers = [];
@@ -83,17 +91,27 @@
 			<div>
 				<h1>Calculator</h1>
 				<hr />
-				<label>Number 1:</label>
-				<input type="number" onChange={(evt) => model.n1 = evt.target.valueAsNumber}/>
-				<br />
-				<label>Number 2:</label>
-				<input type="number" onChange={(evt) => model.n2 = evt.target.valueAsNumber}/>
-				<br />
+				<CalculatorInput displayName="Number 1:" valueChange={(value) => model.n1 = value}/>
+				<CalculatorInput displayName="Number 2:" valueChange={(value) => model.n2 = value}/>
 				<input type="button" value="Add" onClick={() => model.add()}/>
 				<input type="button" value="Subtract" onClick={() => model.subtract()}/>
-				<div>{model.result}</div>
+				<CalculatorResult data={model.result}></CalculatorResult>
 			</div>
 		);
+
+		let CalculatorInput = ({displayName, valueChange}) => (
+			<div>
+				<label>{displayName}</label>
+				<input type="number" onChange={(evt) => valueChange(evt.target.valueAsNumber)}/>
+			</div>
+		)
+
+		let CalculatorResult = ({data}) => {
+			let styleName = data >=0 ? 'positive' : 'negative';
+			return (
+				<div className={styleName}>{data}</div>
+			)
+		}
 		
 
 		var calculatorModel = new CalculatorModel();
