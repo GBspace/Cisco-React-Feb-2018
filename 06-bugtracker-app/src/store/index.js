@@ -1,5 +1,5 @@
-import { createStore, combineReducers } from 'redux';
-
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 import bugsReducer from '../bugTracker/reducers';
 import spinnerReducer from '../spinner/reducers';
 
@@ -8,6 +8,6 @@ let rootReducer = combineReducers({
 	spinnerData : spinnerReducer
 });
 
-let appStore = createStore(rootReducer);
+let appStore = createStore(rootReducer, applyMiddleware(thunk));
 
 export default appStore;

@@ -1,4 +1,10 @@
+import bugService from '../services/bugServer';
+
 export function addNew(bugName){
-	let newBug = {name : bugName, isClosed : false};
-	return { type : 'ADD_NEW', payload :  newBug};
+	return function(dispatch){
+		let newBugData = {id : 0, name : bugName, isClosed : false, createdAt : new Date()};
+		bugService
+			.addNew(newBugData)
+			.then(newBug => dispatch({ type : 'ADD_NEW', payload :  newBug}));
+	}
 }
