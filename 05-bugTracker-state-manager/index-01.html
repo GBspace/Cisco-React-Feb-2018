@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Bug Tracker</title>
+	<style>
+		body{
+			margin-left: 50px;
+		}
+		section{
+			margin-bottom: 10px;
+		}
+		.closed{
+			color : red;
+			text-decoration: line-through;
+			font-style: italic;
+			font-weight: bold;
+		}
+		.bugname, .stats{
+			font-size: 20pt;
+		}
+		.bugname{
+			cursor : pointer;
+		}
+		ol{
+			list-style: none;
+			width: 500px;
+			-webkit-padding-start : 0px;
+		}
+		li{
+			border: 1px solid gray;
+			background-color: #e7e7e7;
+			padding: 10px;
+			border-radius: 5px;
+			margin-bottom: 10px;
+		}
+		.datetime{
+			font-style: italic;
+		}
+	</style>
+	<script src="react.js"></script>
+	<script src="react-dom.js"></script>
+	<script src="babel.min.js"></script>
+	<script src="stateManager.js"></script>
+	<script type="text/babel">
+		
+
+		function bugsReducer(currentState = [], action){
+			if (action.type === 'ADD_NEW'){
+				return [...currentState, action.payload];
+			}
+			return currentState;
+		}
+
+		let store = SM.createStore(bugsReducer);
+
+		let bugActionsCreator = {
+			addNew(bugName){
+				return { type : 'ADD_NEW', payload : bugName };
+			}
+		}
+
+		let bugActions = SM.bindActionCreators(bugActionsCreator, store.dispatch);
+
+		class BugTracker extends React.Component{
+
+			render(){
+				let bugItems = this.props.bugs.map((bug,index) => (
+					<li key={index}>
+						<span className="bugname">{bug}</span>
+						<div className="datetime">[Created At]</div>
+					</li>
+				))
+				return(
+					<div>
+						<section className="stats">
+							<span className="closed">1</span>
+							<span> / </span>
+							<span>{this.props.bugs.length}</span>
+						</section>
+						<section className="edit">
+							<label htmlFor="">Bug Name :</label>
+							<input type="text" />
+							<input type="button" value="Create New" />
+						</section>
+						<section className="list">
+							<ol>
+								{bugItems}
+							</ol>
+							<input type="button" value="Remove Closed" />
+						</section>
+					</div>
+				)
+			}
+		}
+
+		function renderApp(){
+			let bugs = store.getState();
+			ReactDOM.render(<BugTracker bugs={bugs}/>,
+				document.getElementById('root'));
+		}
+		renderApp();
+		store.subscribe(renderApp);
+	</script>
+</head>
+<body>
+	<h1>Bug Tracker</h1>
+	<hr>
+	<div id="root"></div>
+</body>
+</html>
+<!-- 
+1. Add new bugs
+2. List the bugs
+3. Toggle the 'closed' status of any bug
+4. Remove closed bugs
+5. Display Stats
+
+Hints
+	BugTracker
+		BugStats
+		BugEdit
+		BugList
+			BugItem
+ -->
+
+
