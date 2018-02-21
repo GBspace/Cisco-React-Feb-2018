@@ -19,7 +19,7 @@ const BugTracker = ({bugs, addNew, toggle, removeClosed}) => (
 
 //logic for extracting the relevant state for bugTracker from the store
 function mapStateToProps(state){
-	let { bugsData } = state;
+	let { bugsData, spinnerData } = state;
 	return {bugs : bugsData};
 }
 
