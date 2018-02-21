@@ -1,4 +1,8 @@
 import React, {Component} from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
+import spinnerActionsCreator from './actions';
 
 class Spinner extends Component{
 	onIncrementClick(){
@@ -21,4 +25,17 @@ class Spinner extends Component{
 		)
 	}
 }
-export default Spinner;
+
+function mapStateToProps(state){
+	let { spinnerData : value } = state;
+	return { value };
+}
+
+function mapDispatchToProps(dispatch){
+	var spinnerActions = bindActionCreators(spinnerActionsCreator, dispatch);
+	return spinnerActions;
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Spinner);
+
+

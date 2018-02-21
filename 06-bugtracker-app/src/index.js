@@ -4,15 +4,16 @@ import './index.css';
 //import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import { bindActionCreators } from 'redux';
-
+import { Provider } from 'react-redux';
 
 import BugTracker from './bugTracker';
 import Spinner from './spinner';
 
+import appStore from './store';
+
+/*
 import * as bugActionsCreator from './bugTracker/actions';
 import spinnerActionsCreator from './spinner/actions';
-
-import appStore from './store';
 
 let bugActions = bindActionCreators(bugActionsCreator, appStore.dispatch);
 var spinnerActions = bindActionCreators(spinnerActionsCreator, appStore.dispatch);
@@ -29,7 +30,18 @@ function renderApp(){
 }
 
 renderApp();
-appStore.subscribe(renderApp);
 
+appStore.subscribe(renderApp);
+*/
+
+ReactDOM.render(
+		<Provider store={appStore}>
+			<div>
+				<Spinner />
+				<BugTracker />
+			</div>
+		</Provider>,
+		document.getElementById('root')
+	);
 
 registerServiceWorker();
